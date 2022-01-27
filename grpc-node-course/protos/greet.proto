@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package greet;
+
+service GreetService {
+    //UNARY RPC
+    rpc Greet (GreetRequest) returns (GreetResponse) {};
+
+    //Streaming RPC
+    rpc GreetManyTimes (GreetManyTimesRequest) returns (stream GreetManyTimesReponse) {};
+}
+
+message GreetManyTimesRequest {
+    Greeting greeting = 1;
+}
+
+message GreetManyTimesReponse {
+    string result = 1;
+}
+
+message Greeting{
+    string first_name = 1;
+    string last_name = 2;
+}
+
+message GreetRequest {
+    Greeting greeting = 1;
+}
+
+message GreetResponse {
+    string result = 1;
+}

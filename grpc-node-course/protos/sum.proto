@@ -1,0 +1,26 @@
+syntax = "proto3";
+
+package calculator;
+
+service CalculatorService {
+    rpc Sum (SumRequest) returns (SumResponse) {};
+
+    rpc PrimeNumberDecomposition (PrimeNumberDecompositionRequest) returns (stream PrimeNumberDecompositionResponse) {};
+}
+
+message PrimeNumberDecompositionRequest {
+    int32 number = 1;
+}
+
+message PrimeNumberDecompositionResponse {
+    int32 prime_factor = 1;
+}
+
+message SumRequest {
+    float val1 = 1;
+    float val2 = 2;
+}
+
+message SumResponse {
+    float result = 1;
+}
