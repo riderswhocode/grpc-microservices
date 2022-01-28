@@ -80,14 +80,114 @@ function primeNumberDecomposition(call, callback) {
         }
     }
     call.end()
+
+}
+
+function longGreet(call, callback) {
+    call.on("data", request => {
+        
+        var full_name = request.getGreeting().getFirstName() + ' ' + request.getGreeting().getLastName()
+
+        console.log(`Hello ${full_name}`)
+
+    })
+
+    call.on("error", error => {
+        console.log(error)
+    })
+
+    call.on("end", () => {
+
+        let response = new greets.LongGreetResponse()
+        response.setResult('Long Greet client Streaming...')
+
+        callback(null, response)
+    })
+
+}
+
+function computeAverage(call, callback) {
+
+    let sum = 0
+    let count = 0
+
+    call.on("data", request => {
+
+        sum+= request.getNumber()
+        console.log('Received number: ' + request.getNumber())
+        count+=1
+    })
+
+    call.on("error", error => {
+        console.error(error)
+    })
+
+    call.on("end", () => {
+
+        let average = sum / count
+        console.log(sum)
+        console.log(count)
+        
+        let response = new calc.ComputeAverageResponse()
+        response.setAverage(average)
+
+        callback(null, response)
+    })
+}
+async function sleep(interval) {
+    return new Promise((resolve) => {
+        setTimeout(() => resolve(), interval)
+    })
+}
+
+async function greetEveryone(call, callback) {
     
+
+
+    call.on("data", response => {
+        
+        let full_name = response.getGreet().getFirstName() + ' ' + response.getGreet().getLastName()
+
+        console.log(`Hello ${full_name}`)
+    })
+
+    call.on("error", error => {
+        console.error(error)
+    })
+
+   call.on("end", () => {
+       console.log("The end of Streaming")
+   })
+
+   for (let i = 1; i <= 10; i++) {
+    //    let greeting = new greets.Greeting()
+    //    greeting.setFirstName("Jose")
+    //    greeting.setLastName("Rizal")
+
+       let request = new greets.GreetEveryoneResponse()
+       request.setResult("Jose Rizal")
+
+       call.write(request)
+       await sleep(1000)
+   }
+
+   call.end()
+
 }
 
 function main() {
     const server = new grpc.Server()
-    // server.addService(service.GreetServiceService, { greet: greet, greetManyTimes: greetManyTimes })
-    // server.addService(sum_service.AdditionServiceService, { sumcalculator: sumcalculator})
-    server.addService(calcService.CalculatorServiceService, { sum: sum, primeNumberDecomposition: primeNumberDecomposition })
+    server.addService(service.GreetServiceService, { 
+        greet: greet, 
+        greetManyTimes: greetManyTimes, 
+        longGreet: longGreet,
+        greetEveryone: greetEveryone
+     })
+ 
+    // server.addService(calcService.CalculatorServiceService, { 
+    //     sum: sum, 
+    //     primeNumberDecomposition: primeNumberDecomposition,
+    //     computeAverage: computeAverage })
     server.bind("localhost:50051", grpc.ServerCredentials.createInsecure())
     
     server.start()

@@ -6,8 +6,31 @@ service GreetService {
     //UNARY RPC
     rpc Greet (GreetRequest) returns (GreetResponse) {};
 
-    //Streaming RPC
+    //Server Streaming RPC
     rpc GreetManyTimes (GreetManyTimesRequest) returns (stream GreetManyTimesReponse) {};
+
+    //Client Streaming RPC
+
+    rpc LongGreet (stream LongGreetRequest) returns (LongGreetResponse) {}; 
+
+    //BIDIRECTIONAL Streaming RPC
+    rpc GreetEveryone (stream GreetEveryoneRequest) returns (stream GreetEveryoneResponse) {};
+}
+
+message GreetEveryoneRequest {
+    Greeting greeting = 1;
+}
+
+message GreetEveryoneResponse {
+    string result = 1;
+}
+
+message LongGreetRequest {
+    Greeting greeting = 1;
+}
+
+message LongGreetResponse {
+    string result = 1;
 }
 
 message GreetManyTimesRequest {
