@@ -26,6 +26,28 @@ function deserialize_calculator_ComputeAverageResponse(buffer_arg) {
   return sum_pb.ComputeAverageResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
+function serialize_calculator_FindMaximumRequest(arg) {
+  if (!(arg instanceof sum_pb.FindMaximumRequest)) {
+    throw new Error('Expected argument of type calculator.FindMaximumRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_calculator_FindMaximumRequest(buffer_arg) {
+  return sum_pb.FindMaximumRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_calculator_FindMaximumResponse(arg) {
+  if (!(arg instanceof sum_pb.FindMaximumResponse)) {
+    throw new Error('Expected argument of type calculator.FindMaximumResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_calculator_FindMaximumResponse(buffer_arg) {
+  return sum_pb.FindMaximumResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
 function serialize_calculator_PrimeNumberDecompositionRequest(arg) {
   if (!(arg instanceof sum_pb.PrimeNumberDecompositionRequest)) {
     throw new Error('Expected argument of type calculator.PrimeNumberDecompositionRequest');
@@ -46,6 +68,28 @@ function serialize_calculator_PrimeNumberDecompositionResponse(arg) {
 
 function deserialize_calculator_PrimeNumberDecompositionResponse(buffer_arg) {
   return sum_pb.PrimeNumberDecompositionResponse.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_calculator_SquareRootRequest(arg) {
+  if (!(arg instanceof sum_pb.SquareRootRequest)) {
+    throw new Error('Expected argument of type calculator.SquareRootRequest');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_calculator_SquareRootRequest(buffer_arg) {
+  return sum_pb.SquareRootRequest.deserializeBinary(new Uint8Array(buffer_arg));
+}
+
+function serialize_calculator_SquareRootResponse(arg) {
+  if (!(arg instanceof sum_pb.SquareRootResponse)) {
+    throw new Error('Expected argument of type calculator.SquareRootResponse');
+  }
+  return Buffer.from(arg.serializeBinary());
+}
+
+function deserialize_calculator_SquareRootResponse(buffer_arg) {
+  return sum_pb.SquareRootResponse.deserializeBinary(new Uint8Array(buffer_arg));
 }
 
 function serialize_calculator_SumRequest(arg) {
@@ -72,7 +116,8 @@ function deserialize_calculator_SumResponse(buffer_arg) {
 
 
 var CalculatorServiceService = exports.CalculatorServiceService = {
-  sum: {
+  // UNARY API
+sum: {
     path: '/calculator.CalculatorService/Sum',
     requestStream: false,
     responseStream: false,
@@ -83,7 +128,20 @@ var CalculatorServiceService = exports.CalculatorServiceService = {
     responseSerialize: serialize_calculator_SumResponse,
     responseDeserialize: deserialize_calculator_SumResponse,
   },
-  primeNumberDecomposition: {
+  // ERROR HANDLING SAMPLE
+squareRoot: {
+    path: '/calculator.CalculatorService/SquareRoot',
+    requestStream: false,
+    responseStream: false,
+    requestType: sum_pb.SquareRootRequest,
+    responseType: sum_pb.SquareRootResponse,
+    requestSerialize: serialize_calculator_SquareRootRequest,
+    requestDeserialize: deserialize_calculator_SquareRootRequest,
+    responseSerialize: serialize_calculator_SquareRootResponse,
+    responseDeserialize: deserialize_calculator_SquareRootResponse,
+  },
+  // SERVER STREAM API
+primeNumberDecomposition: {
     path: '/calculator.CalculatorService/PrimeNumberDecomposition',
     requestStream: false,
     responseStream: true,
@@ -94,7 +152,8 @@ var CalculatorServiceService = exports.CalculatorServiceService = {
     responseSerialize: serialize_calculator_PrimeNumberDecompositionResponse,
     responseDeserialize: deserialize_calculator_PrimeNumberDecompositionResponse,
   },
-  computeAverage: {
+  // CLIENT STREAM API
+computeAverage: {
     path: '/calculator.CalculatorService/ComputeAverage',
     requestStream: true,
     responseStream: false,
@@ -104,6 +163,18 @@ var CalculatorServiceService = exports.CalculatorServiceService = {
     requestDeserialize: deserialize_calculator_ComputeAverageRequest,
     responseSerialize: serialize_calculator_ComputeAverageResponse,
     responseDeserialize: deserialize_calculator_ComputeAverageResponse,
+  },
+  // BIDIRECTIONAL STREAM API
+findMaximum: {
+    path: '/calculator.CalculatorService/FindMaximum',
+    requestStream: true,
+    responseStream: true,
+    requestType: sum_pb.FindMaximumRequest,
+    responseType: sum_pb.FindMaximumResponse,
+    requestSerialize: serialize_calculator_FindMaximumRequest,
+    requestDeserialize: deserialize_calculator_FindMaximumRequest,
+    responseSerialize: serialize_calculator_FindMaximumResponse,
+    responseDeserialize: deserialize_calculator_FindMaximumResponse,
   },
 };
 

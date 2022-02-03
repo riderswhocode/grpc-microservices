@@ -3,11 +3,35 @@ syntax = "proto3";
 package calculator;
 
 service CalculatorService {
+    //UNARY API
     rpc Sum (SumRequest) returns (SumResponse) {};
+    //ERROR HANDLING SAMPLE
+    rpc SquareRoot (SquareRootRequest) returns (SquareRootResponse) {};
 
+    //SERVER STREAM API
     rpc PrimeNumberDecomposition (PrimeNumberDecompositionRequest) returns (stream PrimeNumberDecompositionResponse) {};
 
+    //CLIENT STREAM API
     rpc ComputeAverage (stream ComputeAverageRequest) returns (ComputeAverageResponse) {};
+
+    //BIDIRECTIONAL STREAM API
+    rpc FindMaximum (stream FindMaximumRequest) returns (stream FindMaximumResponse) {};
+}
+
+message SquareRootRequest {
+    int32 number = 1;
+}
+
+message SquareRootResponse {
+    int32 result = 1;
+}
+
+message FindMaximumRequest {
+    int32 number = 1;
+}
+
+message FindMaximumResponse {
+    int32 number = 1;
 }
 
 message ComputeAverageRequest {
